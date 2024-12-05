@@ -1,4 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
+<<<<<<< HEAD
+=======
+from django.contrib.auth.models import User
+>>>>>>> parent of 842cfad (Update views.py)
 from django.db.models import Q
 from django.utils.dateparse import parse_date
 from django.utils import timezone
@@ -6,9 +10,12 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from .models import Key, KeyHistory
 
+<<<<<<< HEAD
 # Получаваме правилния потребителски модел
 User = get_user_model()
 
+=======
+>>>>>>> parent of 842cfad (Update views.py)
 def view_reports(request):
     reports = KeyHistory.objects.all().order_by('-issued_at')
 
