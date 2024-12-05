@@ -1,17 +1,12 @@
-from django.shortcuts import render
-from django.utils import timezone
-# Create your views here.
-
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from .models import Key, KeyHistory
+from django.db.models import Q
+from django.utils.dateparse import parse_date
+from django.utils import timezone
 from django.http import HttpResponse
-from django.shortcuts import render
-from .models import KeyHistory
+from .models import Key, KeyHistory
 
 def view_reports(request):
-    # Получаване на всички записи за историята
     query = KeyHistory.objects.all().order_by('-issued_at')
 
     # Филтри от GET заявката
@@ -24,7 +19,6 @@ def view_reports(request):
     if username:
         query = query.filter(user__username__icontains=username)
 
-    # Рендериране на шаблона
     return render(request, 'keys/reports.html', {
         'reports': query,
         'key_name': key_name,
@@ -32,9 +26,37 @@ def view_reports(request):
     })
 
 
+def filter_reports(request):
+    reports = KeyHistory.objects.all().order_by('-issued_at')
+
+    # Получаване на данни от GET параметрите
+    user_id = request.GET.get('user_id', '')
+    key_barcode = request.GET.get('key_barcode', '')
+    start_date = request.GET.get('start_date', '')
+    end_date = request.GET.get('end_date', '')
+
+    # Прилагане на филтри
+    if user_id:
+        reports = reports.filter(user__id=user_id)
+    if key_barcode:
+        reports = reports.filter(key__barcode__icontains=key_barcode)
+    if start_date:
+        reports = reports.filter(issued_at__date__gte=parse_date(start_date))
+    if end_date:
+        reports = reports.filter(issued_at__date__lte=parse_date(end_date))
+
+    return render(request, 'keys/filter_reports.html', {
+        'reports': reports,
+        'users': User.objects.all(),
+        'user_id': user_id,
+        'key_barcode': key_barcode,
+        'start_date': start_date,
+        'end_date': end_date,
+    })
+
+
 def main_page(request):
     return render(request, 'keys/main_page.html')
-
 
 
 def issue_key(request):

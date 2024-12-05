@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Usage Reports</title>
+</head>
+<body>
+    <h1>Key Usage Reports</h1>
+
+    <form method="get">
+        <!-- Селектор за потребител -->
+        <label for="user_id">Select User:</label>
+        <select id="user_id" name="user_id">
+            <option value="">-- All Users --</option>
+            {% for user in users %}
+                <option value="{{ user.id }}" {% if user.id|stringformat:"s" == user_id %}selected{% endif %}>
+                    {{ user.username }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <!-- Поле за баркод -->
+        <label for="key_barcode">Key Barcode:</label>
+        <input type="text" id="key_barcode" name="key_barcode" value="{{ key_barcode }}">
+
+        <!-- Полета за начална и крайна дата -->
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+
+        <!-- Бутон за филтриране -->
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Таблица с резултатите -->
+    <table>
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>User</th>
+                <th>Issued At</th>
+                <th>Returned At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+                <tr>
+                    <td>{{ report.key.barcode }}</td>
+                    <td>{{ report.user.username if report.user else "Unknown" }}</td>
+                    <td>{{ report.issued_at }}</td>
+                    <td>{{ report.returned_at|default:"Not Returned" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No records found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'main_page' %}">Back to Main Page</a>
+</body>
+</html>
