@@ -1,0 +1,15 @@
+<h1>Issue a Key</h1>
+<form method="POST">
+    {% csrf_token %}
+    <label for="barcode">Key Barcode:</label>
+    <input type="text" name="barcode" required>
+    <br>
+    <label for="user_id">Select User:</label>
+    <select name="user_id" required>
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="submit">Issue Key</button>
+</form>

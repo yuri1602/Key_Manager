@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+</head>
+<body>
+    <h1>Key Usage Reports</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>User</th>
+                <th>Issued At</th>
+                <th>Returned At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.key.name }}</td>
+                <td>
+                    {% if report.user %}
+                        {{ report.user.username }}
+                    {% else %}
+                        Unknown
+                    {% endif %}
+                </td>
+                <td>{{ report.issued_at }}</td>
+                <td>
+                    {% if report.returned_at %}
+                        {{ report.returned_at }}
+                    {% else %}
+                        Not Returned
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'main_page' %}">Back to Main Page</a>
+</body>
+</html>
