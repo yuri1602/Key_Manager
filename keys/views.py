@@ -7,26 +7,7 @@ from django.http import HttpResponse
 from .models import Key, KeyHistory
 
 def view_reports(request):
-    query = KeyHistory.objects.all().order_by('-issued_at')
-
-    # Филтри от GET заявката
-    key_name = request.GET.get('key_name', '')
-    username = request.GET.get('username', '')
-
-    # Прилагане на филтъра
-    if key_name:
-        query = query.filter(key__name__icontains=key_name)
-    if username:
-        query = query.filter(user__username__icontains=username)
-
-    return render(request, 'keys/reports.html', {
-        'reports': query,
-        'key_name': key_name,
-        'username': username
-    })
-
-
-def filter_reports(request):
+    # Всички записи за историята
     reports = KeyHistory.objects.all().order_by('-issued_at')
 
     # Получаване на данни от GET параметрите
@@ -45,7 +26,8 @@ def filter_reports(request):
     if end_date:
         reports = reports.filter(issued_at__date__lte=parse_date(end_date))
 
-    return render(request, 'keys/filter_reports.html', {
+    # Подаване на параметри и резултати към шаблона
+    return render(request, 'keys/reports.html', {
         'reports': reports,
         'users': User.objects.all(),
         'user_id': user_id,

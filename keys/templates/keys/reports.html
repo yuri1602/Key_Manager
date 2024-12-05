@@ -1,12 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reports</title>
 </head>
 <body>
     <h1>Key Usage Reports</h1>
+
+    <!-- Форма за филтриране -->
+    <form method="get" action="{% url 'view_reports' %}">
+        <label for="user_id">User:</label>
+        <select name="user_id" id="user_id">
+            <option value="">-- Select User --</option>
+            {% for user in users %}
+                <option value="{{ user.id }}" {% if user.id|stringformat:"s" == user_id %}selected{% endif %}>
+                    {{ user.username }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="key_barcode">Key Barcode:</label>
+        <input type="text" name="key_barcode" id="key_barcode" value="{{ key_barcode }}">
+
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" id="start_date" value="{{ start_date }}">
+
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" id="end_date" value="{{ end_date }}">
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Таблица със справки -->
     <table border="1">
         <thead>
             <tr>
@@ -18,27 +42,18 @@
         </thead>
         <tbody>
             {% for report in reports %}
-            <tr>
-                <td>{{ report.key.name }}</td>
-                <td>
-                    {% if report.user %}
-                        {{ report.user.username }}
-                    {% else %}
-                        Unknown
-                    {% endif %}
-                </td>
-                <td>{{ report.issued_at }}</td>
-                <td>
-                    {% if report.returned_at %}
-                        {{ report.returned_at }}
-                    {% else %}
-                        Not Returned
-                    {% endif %}
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ report.key.name }}</td>
+                    <td>{{ report.user.username if report.user else "Unknown" }}</td>
+                    <td>{{ report.issued_at }}</td>
+                    <td>{{ report.returned_at|default:"Not Returned" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No records found.</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{% url 'main_page' %}">Back to Main Page</a>
 </body>
 </html>
