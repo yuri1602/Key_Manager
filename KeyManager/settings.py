@@ -27,6 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['10.10.11.32', '*', 'localhost']
 
+# URL за статични файлове
+STATIC_URL = '/static/'
+
+# Път до статичните файлове в проекта
+STATICFILES_DIRS = [
+    BASE_DIR / "keys/static",
+]
+
+# Път за съхранение на събрани статични файлове (за продукционна среда)
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 # Application definition
 
