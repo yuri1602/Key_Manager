@@ -10,11 +10,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Автоматично фокусиране при зареждане на страницата
-    focusBarcode();
+    barcodeField.focus();
 
-    // Автоматично фокусиране, когато не сме в падащото меню
+    // Събитие при промяна в падащото меню
+    userSelect.addEventListener("change", function () {
+        // Изчакване, за да се избегне моментално връщане на фокуса
+        setTimeout(focusBarcode, 500);
+    });
+
+    // Фокусиране на полето за баркод при кликване извън други елементи
     document.addEventListener("click", function (event) {
-        if (event.target !== userSelect) {
+        if (event.target !== userSelect && event.target !== barcodeField) {
             focusBarcode();
         }
     });
