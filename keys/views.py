@@ -1,10 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
+from django.conf import settings  # За да използваме AUTH_USER_MODEL
 from django.db.models import Q
 from django.utils.dateparse import parse_date
 from django.utils import timezone
 from django.http import HttpResponse
 from .models import Key, KeyHistory
+
+# Получаване на модела на потребителите
+User = settings.AUTH_USER_MODEL
 
 def view_reports(request):
     # Всички записи за историята
@@ -29,7 +32,7 @@ def view_reports(request):
     # Подаване на параметри и резултати към шаблона
     return render(request, 'keys/reports.html', {
         'reports': reports,
-        'users': User.objects.all(),
+        'users': settings.AUTH_USER_MODEL.objects.all(),
         'user_id': user_id,
         'key_barcode': key_barcode,
         'start_date': start_date,
@@ -47,7 +50,7 @@ def issue_key(request):
         user_id = request.POST.get('user_id')
 
         key = get_object_or_404(Key, barcode=barcode)
-        user = get_object_or_404(User, id=user_id)
+        user = get_object_or_404(settings.AUTH_USER_MODEL, id=user_id)
 
         if key.is_issued:
             return HttpResponse("This key is already issued.")
@@ -61,7 +64,7 @@ def issue_key(request):
 
         return HttpResponse("Key issued successfully!")
 
-    users = User.objects.all()
+    users = settings.AUTH_USER_MODEL.objects.all()
     return render(request, 'keys/issue_key.html', {'users': users})
 
 
