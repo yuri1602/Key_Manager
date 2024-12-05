@@ -30,8 +30,6 @@ ALLOWED_HOSTS = ['10.10.11.32', '*', 'localhost']
 # URL за статични файлове
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'keys.CustomUser'
-
 
 # Път до статичните файлове в проекта
 STATICFILES_DIRS = [
