@@ -1,12 +1,21 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Изберете първото текстово поле на страницата
-    const firstInputField = document.querySelector('input[type="text"]');
-    if (firstInputField) {
-        firstInputField.focus();
+document.addEventListener("DOMContentLoaded", function () {
+    const barcodeField = document.getElementById("barcode");
+    const userSelect = document.getElementById("user_id");
 
-        // Ако фокусът се загуби, го възстановете
-        firstInputField.addEventListener('blur', function() {
-            setTimeout(() => firstInputField.focus(), 100);
-        });
+    // Функция за автоматично фокусиране върху полето за баркод
+    function focusBarcode() {
+        if (document.activeElement !== userSelect) {
+            barcodeField.focus();
+        }
     }
+
+    // Автоматично фокусиране при зареждане на страницата
+    focusBarcode();
+
+    // Автоматично фокусиране, когато не сме в падащото меню
+    document.addEventListener("click", function (event) {
+        if (event.target !== userSelect) {
+            focusBarcode();
+        }
+    });
 });
