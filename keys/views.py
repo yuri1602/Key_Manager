@@ -1,25 +1,22 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.conf import settings  # За да използваме AUTH_USER_MODEL
 from django.db.models import Q
 from django.utils.dateparse import parse_date
 from django.utils import timezone
 from django.http import HttpResponse
+from django.contrib.auth import get_user_model
 from .models import Key, KeyHistory
 
-# Получаване на модела на потребителите
-User = settings.AUTH_USER_MODEL
+# Получаваме правилния потребителски модел
+User = get_user_model()
 
 def view_reports(request):
-    # Всички записи за историята
     reports = KeyHistory.objects.all().order_by('-issued_at')
 
-    # Получаване на данни от GET параметрите
     user_id = request.GET.get('user_id', '')
     key_barcode = request.GET.get('key_barcode', '')
     start_date = request.GET.get('start_date', '')
     end_date = request.GET.get('end_date', '')
 
-    # Прилагане на филтри
     if user_id:
         reports = reports.filter(user__id=user_id)
     if key_barcode:
@@ -29,10 +26,9 @@ def view_reports(request):
     if end_date:
         reports = reports.filter(issued_at__date__lte=parse_date(end_date))
 
-    # Подаване на параметри и резултати към шаблона
     return render(request, 'keys/reports.html', {
         'reports': reports,
-        'users': settings.AUTH_USER_MODEL.objects.all(),
+        'users': User.objects.all(),
         'user_id': user_id,
         'key_barcode': key_barcode,
         'start_date': start_date,
@@ -50,7 +46,7 @@ def issue_key(request):
         user_id = request.POST.get('user_id')
 
         key = get_object_or_404(Key, barcode=barcode)
-        user = get_object_or_404(settings.AUTH_USER_MODEL, id=user_id)
+        user = get_object_or_404(User, id=user_id)
 
         if key.is_issued:
             return HttpResponse("This key is already issued.")
@@ -64,7 +60,7 @@ def issue_key(request):
 
         return HttpResponse("Key issued successfully!")
 
-    users = settings.AUTH_USER_MODEL.objects.all()
+    users = User.objects.all()
     return render(request, 'keys/issue_key.html', {'users': users})
 
 
