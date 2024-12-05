@@ -55,6 +55,7 @@
         <h1>Issue a Key</h1>
         <form method="POST">
             {% csrf_token %}
+            {% load static %}
             <input type="text" name="barcode" placeholder="Enter Key Barcode" required>
             <select name="user_id" required>
                 <option value="" disabled selected>Select User</option>
