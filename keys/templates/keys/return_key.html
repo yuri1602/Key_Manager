@@ -55,6 +55,7 @@
         <h1>Return a Key</h1>
         <form method="POST">
             {% csrf_token %}
+            {% load static %}
             <input type="text" name="barcode" placeholder="Enter Key Barcode" required>
             <button type="submit">Return Key</button>
         </form>
