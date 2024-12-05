@@ -1,15 +1,15 @@
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings  # За използване на AUTH_USER_MODEL
 
-# Персонализиран модел за потребители
+# Персонализиран потребителски модел
 class CustomUser(AbstractUser):
     nfc_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
 
     def __str__(self):
         return self.username
 
-
+# Модел за ключове
 class Key(models.Model):
     name = models.CharField(max_length=100)  # Име на ключа
     barcode = models.CharField(max_length=50, unique=True)  # Уникален баркод
@@ -23,7 +23,7 @@ class Key(models.Model):
     def __str__(self):
         return self.name
 
-
+# История на ключовете
 class KeyHistory(models.Model):
     key = models.ForeignKey(
         Key, on_delete=models.CASCADE, related_name="history"
