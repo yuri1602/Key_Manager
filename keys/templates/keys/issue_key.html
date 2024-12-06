@@ -69,20 +69,20 @@
         </form>
         <a href="{% url 'main_page' %}">Back to Main Page</a>
     </div>
-  
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#user').select2({
-            placeholder: 'Type to search for a user', // Placeholder за търсене
-            allowClear: true, // Позволява изчистване
-            minimumInputLength: 1, // Започва търсенето след 1 символ
-            width: '100%' // Задава широчина
-        });
-    });
-</script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="{% static 'keys/js/auto_focus.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#user').select2({
+                placeholder: 'Type to search for a user', // Placeholder за търсене
+                allowClear: true, // Позволява изчистване
+                minimumInputLength: 1, // Започва търсенето след 1 символ
+                width: '100%' // Задава широчина
+         });
+      });
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 </body>
 </html>
