@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <<<<<<< HEAD
     <title>Issue a Key</title>
+<<<<<<< HEAD
     <link href="{% static 'select2/css/select2.min.css' %}" rel="stylesheet" />
     <script src="{% static 'select2/select2.min.js' %}"></script>
 =======
     <title>Issue Key</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 >>>>>>> parent of e882ba9 (test)
+=======
+>>>>>>> parent of 0b874e0 (v1.2)
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,6 +59,10 @@
         <form method="POST" id="issue-form">
             {% csrf_token %}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+            {% load static %}
+>>>>>>> parent of 0b874e0 (v1.2)
             <label for="barcode">Scan Key Barcode:</label>
             <input type="text" id="barcode" name="barcode" required>
             <label for="user_id">Select User:</label>
@@ -86,6 +93,7 @@
 
         <a href="{% url 'main_page' %}">Back to Main Page</a>
     </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -120,5 +128,8 @@
         });
     </script>
 >>>>>>> parent of e882ba9 (test)
+=======
+    <script src="{% static 'keys/js/auto_focus.js' %}"></script>
+>>>>>>> parent of 0b874e0 (v1.2)
 </body>
 </html>
