@@ -1,10 +1,13 @@
-
 from django.shortcuts import render, get_object_or_404, redirect
+<<<<<<< HEAD
+=======
 from django.contrib.auth.models import User
+>>>>>>> parent of 842cfad (Update views.py)
 from django.db.models import Q
 from django.utils.dateparse import parse_date
 from django.utils import timezone
 from django.http import HttpResponse
+from django.contrib.auth import get_user_model
 from .models import Key, KeyHistory
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
@@ -36,17 +39,20 @@ def search_users(request):
 
 
 
+<<<<<<< HEAD
+# Получаваме правилния потребителски модел
+User = get_user_model()
+
+=======
+>>>>>>> parent of 842cfad (Update views.py)
 def view_reports(request):
-    # Всички записи за историята
     reports = KeyHistory.objects.all().order_by('-issued_at')
 
-    # Получаване на данни от GET параметрите
     user_id = request.GET.get('user_id', '')
     key_barcode = request.GET.get('key_barcode', '')
     start_date = request.GET.get('start_date', '')
     end_date = request.GET.get('end_date', '')
 
-    # Прилагане на филтри
     if user_id:
         reports = reports.filter(user__id=user_id)
     if key_barcode:
@@ -56,7 +62,6 @@ def view_reports(request):
     if end_date:
         reports = reports.filter(issued_at__date__lte=parse_date(end_date))
 
-    # Подаване на параметри и резултати към шаблона
     return render(request, 'keys/reports.html', {
         'reports': reports,
         'users': User.objects.all(),
