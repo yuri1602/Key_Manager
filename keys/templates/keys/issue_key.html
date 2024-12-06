@@ -1,68 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <title>Issue a Key</title>
-<<<<<<< HEAD
-    <link href="{% static 'select2/css/select2.min.css' %}" rel="stylesheet" />
-    <script src="{% static 'select2/select2.min.js' %}"></script>
-=======
-    <title>Issue Key</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
->>>>>>> parent of e882ba9 (test)
-=======
->>>>>>> parent of 0b874e0 (v1.2)
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-
         .container {
-            width: 50%;
-            margin: auto;
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        label {
-            display: block;
-            margin: 15px 0 5px;
-        }
-
-        input, select, button {
-            width: 100%;
-            padding: 10px;
+        h1 {
             margin-bottom: 20px;
+            color: #333;
         }
-
-        .user-list {
-            border: 1px solid #ddd;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
-
-        .user-list div {
-            padding: 8px;
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            margin: 0 auto;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-
-        .user-list div:hover {
-            background-color: #f0f0f0;
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Issue a Key</h1>
-        <form method="POST" id="issue-form">
+        <form method="POST">
             {% csrf_token %}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
             {% load static %}
->>>>>>> parent of 0b874e0 (v1.2)
             <label for="barcode">Scan Key Barcode:</label>
             <input type="text" id="barcode" name="barcode" required>
             <label for="user_id">Select User:</label>
@@ -72,64 +65,10 @@
                     <option value="{{ user.id }}">{{ user.username }}</option>
                 {% endfor %}
             </select>
-=======
-
-            <!-- Сканиране на баркода на ключа -->
-            <label for="key_barcode">Scan Key Barcode:</label>
-            <input type="text" id="key_barcode" name="key_barcode" required>
-
-            <!-- Сканиране на баркода на потребителя -->
-            <label for="user_barcode">Scan User Barcode:</label>
-            <input type="text" id="user_barcode" name="user_barcode">
-
-            <!-- Търсене по име -->
-            <label for="search_name">Or Search User by Name:</label>
-            <input type="text" id="search_name" name="search_name" autocomplete="off">
-            <div class="user-list" id="user-list"></div>
-
->>>>>>> parent of e882ba9 (test)
             <button type="submit">Issue Key</button>
         </form>
-
         <a href="{% url 'main_page' %}">Back to Main Page</a>
     </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-    <script>
-        $(document).ready(function () {
-            // Динамично търсене по име
-            $("#search_name").on("keyup", function () {
-                let query = $(this).val();
-
-                if (query.length > 1) {
-                    $.ajax({
-                        url: "{% url 'search_users' %}",
-                        data: { query: query },
-                        success: function (data) {
-                            $("#user-list").empty().show();
-                            data.users.forEach(user => {
-                                $("#user-list").append(`<div data-id="${user.id}">${user.username} (${user.nfc_id})</div>`);
-                            });
-                        }
-                    });
-                } else {
-                    $("#user-list").hide();
-                }
-            });
-
-            // Избиране на потребител от списъка
-            $(document).on("click", "#user-list div", function () {
-                let userId = $(this).data("id");
-                $("#user_barcode").val(userId);
-                $("#user-list").hide();
-            });
-        });
-    </script>
->>>>>>> parent of e882ba9 (test)
-=======
     <script src="{% static 'keys/js/auto_focus.js' %}"></script>
->>>>>>> parent of 0b874e0 (v1.2)
 </body>
 </html>

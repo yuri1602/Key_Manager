@@ -1,61 +1,23 @@
+
 from django.shortcuts import render, get_object_or_404, redirect
-<<<<<<< HEAD
-=======
 from django.contrib.auth.models import User
->>>>>>> parent of 842cfad (Update views.py)
 from django.db.models import Q
 from django.utils.dateparse import parse_date
 from django.utils import timezone
 from django.http import HttpResponse
-from django.contrib.auth import get_user_model
 from .models import Key, KeyHistory
-from django.http import JsonResponse
-from django.contrib.auth import get_user_model
-from .models import CustomUser
 
-<<<<<<< HEAD
-
-#1.1
-def search_users(request):
-    query = request.GET.get('query', '')
-    users = CustomUser.objects.filter(
-        username__icontains=query
-    ).values('id', 'username', 'nfc_id')[:10]
-    return JsonResponse({'users': list(users)})
-
-#1.1 Тази функция просто рендира шаблон за главната страница.
-from django.shortcuts import render
-
-def main_page(request):
-    return render(request, 'keys/main_page.html')
-
-#v.1.1 Добавяне на търсачка за потребители по име (AJAX): Създаваме view, което ще връща списък с потребители според въведения текст.
-User = get_user_model()
-
-def search_users(request):
-    query = request.GET.get('query', '')
-    users = User.objects.filter(username__icontains=query).values('id', 'username', 'nfc_id')[:10]
-    return JsonResponse({'users': list(users)})
-
-
-
-
-=======
->>>>>>> parent of cb72ade (test)
-<<<<<<< HEAD
-# Получаваме правилния потребителски модел
-User = get_user_model()
-
-=======
->>>>>>> parent of 842cfad (Update views.py)
 def view_reports(request):
+    # Всички записи за историята
     reports = KeyHistory.objects.all().order_by('-issued_at')
 
+    # Получаване на данни от GET параметрите
     user_id = request.GET.get('user_id', '')
     key_barcode = request.GET.get('key_barcode', '')
     start_date = request.GET.get('start_date', '')
     end_date = request.GET.get('end_date', '')
 
+    # Прилагане на филтри
     if user_id:
         reports = reports.filter(user__id=user_id)
     if key_barcode:
@@ -65,6 +27,7 @@ def view_reports(request):
     if end_date:
         reports = reports.filter(issued_at__date__lte=parse_date(end_date))
 
+    # Подаване на параметри и резултати към шаблона
     return render(request, 'keys/reports.html', {
         'reports': reports,
         'users': User.objects.all(),
@@ -74,38 +37,33 @@ def view_reports(request):
         'end_date': end_date,
     })
 
-#v.1.1 Логика за издаване на ключове: Модифицираме съществуващото view за издаване на ключа, за да обработва както баркод, така и търсене.
+
+def main_page(request):
+    return render(request, 'keys/main_page.html')
+
+
 def issue_key(request):
     if request.method == 'POST':
-        key_barcode = request.POST.get('key_barcode')
-        user_barcode = request.POST.get('user_barcode')
+        barcode = request.POST.get('barcode')
+        user_id = request.POST.get('user_id')
 
-        # Намиране на ключа
-        key = get_object_or_404(Key, barcode=key_barcode)
-
-        # Намиране на потребителя
-        user = None
-        if user_barcode:
-            user = User.objects.filter(id=user_barcode).first()
-
-        if not user:
-            return render(request, 'keys/issue_key.html', {'error': 'User not found.'})
+        key = get_object_or_404(Key, barcode=barcode)
+        user = get_object_or_404(User, id=user_id)
 
         if key.is_issued:
-            return render(request, 'keys/issue_key.html', {'error': 'Key is already issued.'})
+            return HttpResponse("This key is already issued.")
 
-        # Издаване на ключа
         key.is_issued = True
         key.issued_to = user
         key.issued_at = timezone.now()
         key.save()
 
-        # Запис в историята
         KeyHistory.objects.create(key=key, user=user, issued_at=key.issued_at)
 
-        return render(request, 'keys/issue_key.html', {'success': 'Key issued successfully!'})
+        return HttpResponse("Key issued successfully!")
 
-    return render(request, 'keys/issue_key.html')
+    users = User.objects.all()
+    return render(request, 'keys/issue_key.html', {'users': users})
 
 
 def return_key(request):
