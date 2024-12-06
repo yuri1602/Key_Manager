@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.conf import settings
+from django.conf import settings  # За достъп до AUTH_USER_MODEL
 # Create your models here
 from django.db import models
 from django.contrib.auth.models import User  # Вграден модел за потребители
@@ -17,7 +17,7 @@ class Key(models.Model):
         null=True,
         blank=True,
         related_name="issued_keys",
-    )  # Кой потребител го е взел
+    )
     issued_at = models.DateTimeField(null=True, blank=True)  # Кога е издаден
 
     def __str__(self):
@@ -26,13 +26,13 @@ class Key(models.Model):
 class KeyHistory(models.Model):
     key = models.ForeignKey(
         Key, on_delete=models.CASCADE, related_name="history"
-    )  # Връзка към ключа
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,  # Използваме персонализиран модел
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
-    )  # Потребител, който е взел/върнал ключа
+        blank=True,
+    )
     issued_at = models.DateTimeField()  # Време на издаване
     returned_at = models.DateTimeField(null=True, blank=True)  # Време на връщане
 
