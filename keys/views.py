@@ -6,6 +6,7 @@ from django.utils.dateparse import parse_date
 from django.utils import timezone
 from django.http import HttpResponse
 from .models import Key, KeyHistory
+from django.contrib import messages
 
 def view_reports(request):
     # Всички записи за историята
@@ -41,6 +42,28 @@ def view_reports(request):
 def main_page(request):
     return render(request, 'keys/main_page.html')
 
+
+def create_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+
+        if not username or not password:
+            messages.error(request, "Username and password are required.")
+            return redirect('create_user')
+
+        # Създаване на нов потребител
+        try:
+            user = User.objects.create_user(username=username, password=password, email=email)
+            user.save()
+            messages.success(request, "User created successfully!")
+            return redirect('main_page')
+        except Exception as e:
+            messages.error(request, f"Error creating user: {e}")
+            return redirect('create_user')
+
+    return render(request, 'keys/create_user.html')
 
 def issue_key(request):
     if request.method == 'POST':
