@@ -1,7 +1,10 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings  # За достъп до AUTH_USER_MODEL
+=======
+>>>>>>> parent of cb72ade (test)
 =======
 >>>>>>> parent of cb72ade (test)
 # Create your models here
@@ -9,6 +12,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User  # Вграден модел за потребители
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #1.1
 class Key(models.Model):
@@ -45,11 +49,16 @@ class KeyHistory(models.Model):
         return f"{self.key.name} - {self.user.username if self.user else 'Unknown'}"
 
 =======
+=======
+>>>>>>> parent of cb72ade (test)
 class CustomUser(AbstractUser):
     nfc_id = models.CharField(max_length=20, unique=True, null=True, blank=True)
 
     def __str__(self):
         return self.username
+<<<<<<< HEAD
+>>>>>>> parent of cb72ade (test)
+=======
 >>>>>>> parent of cb72ade (test)
 class Key(models.Model):
     name = models.CharField(max_length=100)  # Име на ключа

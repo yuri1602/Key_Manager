@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from .models import CustomUser
 
+<<<<<<< HEAD
 
 #1.1
 def search_users(request):
@@ -39,6 +40,8 @@ def search_users(request):
 
 
 
+=======
+>>>>>>> parent of cb72ade (test)
 <<<<<<< HEAD
 # Получаваме правилния потребителски модел
 User = get_user_model()
