@@ -46,6 +46,7 @@ def issue_key(request):
     if request.method == 'POST':
         barcode = request.POST.get('barcode')
         user_id = request.POST.get('user_id')
+        print(request.POST)
 
         key = get_object_or_404(Key, barcode=barcode)
         user = get_object_or_404(User, id=user_id)
