@@ -9,6 +9,11 @@ from .models import Key, KeyHistory
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 
+#1.1 Тази функция просто рендира шаблон за главната страница.
+from django.shortcuts import render
+
+def main_page(request):
+    return render(request, 'keys/main_page.html')
 
 #v.1.1 Добавяне на търсачка за потребители по име (AJAX): Създаваме view, което ще връща списък с потребители според въведения текст.
 User = get_user_model()
