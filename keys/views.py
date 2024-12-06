@@ -8,6 +8,16 @@ from django.http import HttpResponse
 from .models import Key, KeyHistory
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
+from .models import CustomUser
+
+
+#1.1
+def search_users(request):
+    query = request.GET.get('query', '')
+    users = CustomUser.objects.filter(
+        username__icontains=query
+    ).values('id', 'username', 'nfc_id')[:10]
+    return JsonResponse({'users': list(users)})
 
 #1.1 Тази функция просто рендира шаблон за главната страница.
 from django.shortcuts import render
