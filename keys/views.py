@@ -44,25 +44,38 @@ def main_page(request):
 
 def issue_key(request):
     if request.method == 'POST':
-        barcode = request.POST.get('barcode')
-        user_id = request.POST.get('user_id')
-        print(request.POST)
+        print("POST Data:", request.POST)  # Печата всички изпратени данни
 
-        key = get_object_or_404(Key, barcode=barcode)
+        # Извличане на данни от POST
+        user_id = request.POST.get('user')  # Получаване на ID на потребителя
+        barcode = request.POST.get('barcode')  # Получаване на баркода на ключа
+        print("User ID:", user_id)  # Печата ID-то на потребителя
+        print("Barcode:", barcode)  # Печата баркода
+
+        # Проверка дали са предоставени всички необходими данни
+        if not user_id or not barcode:
+            return HttpResponse("User ID or barcode not provided.", status=400)
+
+        # Проверка дали съществуват ключът и потребителят
         user = get_object_or_404(User, id=user_id)
+        key = get_object_or_404(Key, barcode=barcode)
 
+        # Проверка дали ключът вече е издаден
         if key.is_issued:
-            return HttpResponse("This key is already issued.")
+            return HttpResponse("This key is already issued.", status=400)
 
+        # Издаване на ключа
         key.is_issued = True
         key.issued_to = user
         key.issued_at = timezone.now()
         key.save()
 
+        # Създаване на запис в историята
         KeyHistory.objects.create(key=key, user=user, issued_at=key.issued_at)
 
         return HttpResponse("Key issued successfully!")
 
+    # Обработка на GET заявка (показване на формуляра)
     users = User.objects.all()
     return render(request, 'keys/issue_key.html', {'users': users})
 

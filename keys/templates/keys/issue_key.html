@@ -59,8 +59,8 @@
             <label for="barcode">Scan Key Barcode:</label>
             <input type="text" id="barcode" name="barcode" required>
             <label for="user">Search for User:</label>
-            <select id="user" name="user" class="form-control" style="width: 100%;">
-                <option></option> <!-- Празен по подразбиране -->
+            <select id="user" name="user" class="form-control">
+                <option></option>
                 {% for user in users %}
                     <option value="{{ user.id }}">{{ user.username }}</option>
                 {% endfor %}
