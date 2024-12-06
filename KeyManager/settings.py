@@ -36,6 +36,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "keys/static",
 ]
 
+#1.1 
+AUTH_USER_MODEL = 'keys.CustomUser'
+
 # Път за съхранение на събрани статични файлове (за продукционна среда)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
