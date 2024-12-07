@@ -10,8 +10,7 @@ class Employee(models.Model):
     department = models.CharField(max_length=100, verbose_name="Отдел")
     code = models.CharField(max_length=20, unique=True, verbose_name="Код")
 
-    def __str__(self):
-        return f"{self.username} - {self.department}"
+  
 
     class Meta:
         verbose_name = "Служител"
