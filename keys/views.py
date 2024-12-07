@@ -38,6 +38,22 @@ def view_reports(request):
         'end_date': end_date,
     })
 
+def search_users(request):
+    query = request.GET.get('q', '')  # Получаване на текста за търсене
+    if query:
+        # Търсене по username или last name
+        users = User.objects.filter(
+            Q(username__icontains=query) | Q(last_name__icontains=query)
+        )
+    else:
+        users = User.objects.none()  # Ако няма търсене, връщаме празен списък
+
+    # Форматиране на резултатите за Select2
+    results = [
+        {'id': user.id, 'text': f"{user.username} ({user.last_name})"} for user in users
+    ]
+    return JsonResponse({'results': results})
+
 
 def main_page(request):
     return render(request, 'keys/main_page.html')
