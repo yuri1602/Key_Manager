@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key Usage Reports</title>
     <style>
         body {
@@ -79,6 +81,8 @@
             color: #666;
         }
     </style>
+    <!-- Включване на Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -87,7 +91,7 @@
         <!-- Форма за филтриране -->
         <form method="get" action="{% url 'view_reports' %}">
             <div>
-                <label for="user_id">User:</label>
+                <label for="user_id">Select User:</label>
                 <select name="user_id" id="user_id">
                     <option value="">-- Select User --</option>
                     {% for user in users %}
@@ -96,6 +100,11 @@
                         </option>
                     {% endfor %}
                 </select>
+            </div>
+
+            <div>
+                <label for="user_search">Search User (Username/Last Name):</label>
+                <input type="text" name="user_search" id="user_search" value="{{ user_search }}">
             </div>
 
             <div>
@@ -144,5 +153,35 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Включване на jQuery и Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Инициализация на Select2
+            $('#user_id').select2({
+                placeholder: 'Search by Username or Last Name',
+                allowClear: true,
+                minimumInputLength: 1,
+                ajax: {
+                    url: "{% url 'search_users' %}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term, // Търсеният текст
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.results, // Резултати от AJAX заявката
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+    </script>
 </body>
 </html>
