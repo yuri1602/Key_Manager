@@ -79,6 +79,8 @@
             color: #666;
         }
     </style>
+    <!-- Включване на Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -144,5 +146,19 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Включване на jQuery и Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#user_id').select2({
+                placeholder: 'Search by Username or Last Name',
+                allowClear: true,
+                minimumInputLength: 1,
+                width: '100%'
+            });
+        });
+    </script>
 </body>
 </html>
