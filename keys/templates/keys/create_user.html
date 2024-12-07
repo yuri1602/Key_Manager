@@ -11,6 +11,28 @@
         {% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <br>
+
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name">
+        <br>
+
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name">
+        <br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+
+        <label for="is_staff">Staff Status:</label>
+        <input type="checkbox" id="is_staff" name="is_staff">
+        <br>
+
         <button type="submit">Create User</button>
     </form>
     <a href="{% url 'main_page' %}">Back to Main Page</a>
