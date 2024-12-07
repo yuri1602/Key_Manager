@@ -7,6 +7,8 @@ from django.utils import timezone
 from django.http import HttpResponse
 from .models import Key, KeyHistory
 from django.contrib import messages
+from django.http import JsonResponse
+
 
 def view_reports(request):
     # Всички записи за историята
