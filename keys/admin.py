@@ -1,8 +1,11 @@
 from django.contrib import admin
-
-# Register your models here.
-from django.contrib import admin
 from .models import Key, KeyHistory
+from .models import Employee
+
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('username', 'department', 'code')
+    search_fields = ('username', 'department', 'code')
 
 @admin.register(Key)
 class KeyAdmin(admin.ModelAdmin):
