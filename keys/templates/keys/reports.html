@@ -79,7 +79,6 @@
             color: #666;
         }
     </style>
-    <!-- Включване на Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
@@ -91,12 +90,7 @@
             <div>
                 <label for="user_id">User:</label>
                 <select name="user_id" id="user_id">
-                    <option value="">-- Select User --</option>
-                    {% for user in users %}
-                        <option value="{{ user.id }}" {% if user.id|stringformat:"s" == user_id %}selected{% endif %}>
-                            {{ user.username }}
-                        </option>
-                    {% endfor %}
+                    <option value="">-- Search User --</option>
                 </select>
             </div>
 
@@ -147,7 +141,6 @@
         </table>
     </div>
 
-    <!-- Включване на jQuery и Select2 JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
@@ -155,27 +148,26 @@
             $('#user_id').select2({
                 placeholder: 'Search by Username or Last Name',
                 allowClear: true,
-                minimumInputLength: 1,  // Започва търсенето след 1 символ
+                minimumInputLength: 1,
                 ajax: {
-                    url: "{% url 'search_users' %}",  // URL за AJAX заявката
+                    url: "{% url 'search_users' %}",
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
                         return {
-                            q: params.term // Изпращаме търсения текст като параметър
+                            q: params.term
                         };
                     },
                     processResults: function(data) {
                         return {
-                            results: data.results // Резултати от сървъра
+                            results: data.results
                         };
                     },
                     cache: true
                 },
-                width: '100%' // Задава ширината на полето
+                width: '100%'
             });
         });
     </script>
-    
 </body>
 </html>

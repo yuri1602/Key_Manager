@@ -38,8 +38,9 @@ def view_reports(request):
         'end_date': end_date,
     })
 
+
 def search_users(request):
-    query = request.GET.get('q', '')  # Получаване на текста за търсене
+    query = request.GET.get('q', '')  # Търсен текст
     if query:
         # Търсене по username или last name
         users = User.objects.filter(
