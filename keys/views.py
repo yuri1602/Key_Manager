@@ -43,22 +43,17 @@ def main_page(request):
     return render(request, 'keys/main_page.html')
 
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib import messages
-
 def create_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
-        password = request.POST.get('password')
         is_staff = request.POST.get('is_staff') == 'on'  # Checkbox за Staff Status
 
         # Проверка за празни полета
-        if not username or not password:
-            messages.error(request, "Username and password are required.")
+        if not username:
+            messages.error(request, "Username is required.")
             return redirect('create_user')
 
         # Създаване на потребителя
@@ -67,19 +62,18 @@ def create_user(request):
                 username=username,
                 email=email,
                 first_name=first_name,
-                last_name=last_name,
-                password=password
+                last_name=last_name
             )
+            user.set_unusable_password()  # Прави паролата неизползваема
             user.is_staff = is_staff  # Присвояване на Staff Status
             user.save()
-            messages.success(request, "User created successfully!")
+            messages.success(request, "User created successfully with password disabled!")
             return redirect('main_page')
         except Exception as e:
             messages.error(request, f"Error creating user: {e}")
             return redirect('create_user')
 
     return render(request, 'keys/create_user.html')
-
 
 def issue_key(request):
     if request.method == 'POST':
