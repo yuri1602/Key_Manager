@@ -7,30 +7,6 @@ from django.utils import timezone
 from django.http import HttpResponse
 from .models import Key, KeyHistory
 from django.contrib import messages
-from .models import Employee
-
-
-def add_employee(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        department = request.POST.get('department')
-        code = request.POST.get('code')
-
-        # Проверка за дублиране на потребителското име или кода
-        if Employee.objects.filter(username=username).exists():
-            messages.error(request, "Employee with this username already exists.")
-            return redirect('add_employee')
-
-        if Employee.objects.filter(code=code).exists():
-            messages.error(request, "Employee with this code already exists.")
-            return redirect('add_employee')
-
-        # Създаване на служител
-        Employee.objects.create(username=username, department=department, code=code)
-        messages.success(request, "Employee added successfully!")
-        return redirect('main_page')
-
-    return render(request, 'keys/add_employee.html')
 
 def view_reports(request):
     # Всички записи за историята
