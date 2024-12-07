@@ -17,7 +17,6 @@ def view_reports(request):
     key_barcode = request.GET.get('key_barcode', '')
     start_date = request.GET.get('start_date', '')
     end_date = request.GET.get('end_date', '')
-    user_search = request.GET.get('user_search', '')  # Ново поле за търсене на потребител
 
     # Прилагане на филтри
     if user_id:
@@ -28,21 +27,6 @@ def view_reports(request):
         reports = reports.filter(issued_at__date__gte=parse_date(start_date))
     if end_date:
         reports = reports.filter(issued_at__date__lte=parse_date(end_date))
-    if user_search:  # Търсене по username или last name
-        reports = reports.filter(Q(user__username__icontains=user_search) | Q(user__last_name__icontains=user_search))
-
-    # Зареждане на всички потребители за падащото меню
-    users = User.objects.all()
-
-    return render(request, 'keys/report.html', {
-        'reports': reports,
-        'users': users,
-        'user_id': user_id,
-        'key_barcode': key_barcode,
-        'start_date': start_date,
-        'end_date': end_date,
-        'user_search': user_search,  # Добавяме за показване в шаблона
-    })
 
     # Подаване на параметри и резултати към шаблона
     return render(request, 'keys/reports.html', {
