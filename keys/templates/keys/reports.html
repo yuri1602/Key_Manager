@@ -155,10 +155,27 @@
             $('#user_id').select2({
                 placeholder: 'Search by Username or Last Name',
                 allowClear: true,
-                minimumInputLength: 1,
-                width: '100%'
+                minimumInputLength: 1,  // Започва търсенето след 1 символ
+                ajax: {
+                    url: "{% url 'search_users' %}",  // URL за AJAX заявката
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term // Изпращаме търсения текст като параметър
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.results // Резултати от сървъра
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%' // Задава ширината на полето
             });
         });
     </script>
+    
 </body>
 </html>

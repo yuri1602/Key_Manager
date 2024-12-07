@@ -55,6 +55,7 @@ def search_users(request):
     return JsonResponse({'results': results})
 
 
+
 def main_page(request):
     return render(request, 'keys/main_page.html')
 
