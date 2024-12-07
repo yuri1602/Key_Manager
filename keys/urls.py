@@ -7,4 +7,5 @@ urlpatterns = [
     path('return/', views.return_key, name='return_key'),  # Връщане на ключ
     path('reports/', views.view_reports, name='view_reports'),  # Справки
     path('create_user/', views.create_user, name='create_user'),
+     path('search-users/', views.search_users, name='search_users'),  # Нова справка
 ]
