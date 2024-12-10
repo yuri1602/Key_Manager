@@ -153,20 +153,28 @@ def return_key(request):
     if request.method == 'POST':
         barcode = request.POST.get('barcode')
 
-        key = get_object_or_404(Key, barcode=barcode)
+        try:
+            key = Key.objects.get(barcode=barcode)
 
-        if not key.is_issued:
-            return HttpResponse("Ключа не е издаден.", status=400)
+            if not key.is_issued:
+                messages.warning(request, "The key is not issued.")
+                return redirect('main_page')
 
-        key_history = KeyHistory.objects.filter(key=key, returned_at__isnull=True).first()
-        key_history.returned_at = timezone.now()
-        key_history.save()
+            key_history = KeyHistory.objects.filter(key=key, returned_at__isnull=True).first()
 
-        key.is_issued = False
-        key.issued_to = None
-        key.issued_at = None
-        key.save()
+            if key_history:
+                key_history.returned_at = timezone.now()
+                key_history.save()
 
-        return HttpResponse("Key returned successfully!")
+            key.is_issued = False
+            key.issued_to = None
+            key.issued_at = None
+            key.save()
+
+            messages.success(request, "Key returned successfully!")
+        except Key.DoesNotExist:
+            messages.error(request, f"No key found with barcode '{barcode}'.")
+
+        return redirect('main_page')
 
     return render(request, 'keys/return_key.html')
