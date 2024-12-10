@@ -8,6 +8,25 @@ from django.http import HttpResponse
 from .models import Key, KeyHistory
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("main_page")  # Пренасочване след успешен вход
+        else:
+            messages.error(request, "Invalid username or password.")  # Съобщение за грешка
+
+    return render(request, "login.html")
+
+
 
 
 def view_reports(request):
