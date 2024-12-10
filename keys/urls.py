@@ -11,7 +11,5 @@ urlpatterns = [
     path('reports/', views.view_reports, name='view_reports'),  # Справки
     path('create_user/', views.create_user, name='create_user'),
      path('search-users/', views.search_users, name='search_users'),  # Нова справка.
-    path('login/', CustomLoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 ]
 

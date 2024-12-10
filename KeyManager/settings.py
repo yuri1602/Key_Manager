@@ -140,5 +140,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'main_page'  # Пренасочване след успешен вход
-LOGOUT_REDIRECT_URL = 'login'    # Пренасочване след изход
