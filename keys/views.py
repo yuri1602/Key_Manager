@@ -70,6 +70,10 @@ def main_page(request):
     return render(request, 'keys/main_page.html')
 
 
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+
 def create_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -83,6 +87,11 @@ def create_user(request):
             messages.error(request, "Username is required.")
             return redirect('create_user')
 
+        # Проверка за съществуващ потребител
+        if User.objects.filter(username=username).exists():
+            messages.error(request, f"User with username '{username}' already exists.")
+            return redirect('create_user')
+
         # Създаване на потребителя
         try:
             user = User.objects.create_user(
@@ -94,13 +103,16 @@ def create_user(request):
             user.set_unusable_password()  # Прави паролата неизползваема
             user.is_staff = is_staff  # Присвояване на Staff Status
             user.save()
-            messages.success(request, "User created successfully with password disabled!")
+
+            # Съобщение за успех
+            messages.success(request, f"User '{username}' created successfully!")
             return redirect('main_page')
         except Exception as e:
             messages.error(request, f"Error creating user: {e}")
             return redirect('create_user')
 
     return render(request, 'keys/create_user.html')
+
 
 def issue_key(request):
     if request.method == 'POST':
@@ -157,7 +169,7 @@ def return_key(request):
             key = Key.objects.get(barcode=barcode)
 
             if not key.is_issued:
-                messages.warning(request, "The key is not issued.")
+                messages.warning(request, "Ключа не е даден.")
                 return redirect('main_page')
 
             key_history = KeyHistory.objects.filter(key=key, returned_at__isnull=True).first()
@@ -171,9 +183,9 @@ def return_key(request):
             key.issued_at = None
             key.save()
 
-            messages.success(request, "Key returned successfully!")
+            messages.success(request, "Ключът е върнат успешно!")
         except Key.DoesNotExist:
-            messages.error(request, f"No key found with barcode '{barcode}'.")
+            messages.error(request, f"Не е намерен ключ с този номер! '{barcode}'.")
 
         return redirect('main_page')
 
