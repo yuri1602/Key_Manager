@@ -6,47 +6,88 @@
     <title>Return a Key</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
         }
+
         .container {
             text-align: center;
             background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+            width: 100%;
+            max-width: 400px;
         }
+
         h1 {
             margin-bottom: 20px;
-            color: #333;
+            color: #444;
+            font-size: 24px;
         }
+
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
+            margin-bottom: 20px;
         }
+
         input, button {
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 300px;
-            margin: 0 auto;
+            border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
         }
+
+        input {
+            background-color: #f9f9f9;
+        }
+
         button {
-            background-color: #007BFF;
+            background-color: #6a11cb;
             color: white;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            transition: all 0.3s ease;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #2575fc;
+            transform: scale(1.05);
+        }
+
+        a {
+            text-decoration: none;
+            color: #6a11cb;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #2575fc;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -61,6 +102,5 @@
         </form>
         <a href="{% url 'main_page' %}">Back to Main Page</a>
     </div>
-    <script src="{% static 'keys/js/auto_focus_1.js' %}"></script>
 </body>
 </html>

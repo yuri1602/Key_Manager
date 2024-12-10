@@ -5,50 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Issue a Key</title>
     <style>
+        /* Основен стил */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            color: #fff;
         }
+
+        /* Контейнер */
         .container {
             text-align: center;
             background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
         }
+
+        /* Заглавие */
         h1 {
+            font-size: 24px;
             margin-bottom: 20px;
             color: #333;
         }
+
+        /* Формуляри */
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
+
         input, select, button {
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 300px;
-            margin: 0 auto;
+            border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
         }
+
+        select {
+            background-color: #f9f9f9;
+        }
+
         button {
             background-color: #007BFF;
             color: white;
             border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
         }
+
         button:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Линк за връщане */
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Анимация */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            animation: fadeIn 1s ease-in-out;
         }
     </style>
+    <!-- Включване на Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -57,32 +107,41 @@
             {% csrf_token %}
             {% load static %}
             <label for="barcode">Scan Key Barcode:</label>
-            <input type="text" id="barcode" name="barcode" required>
+            <input type="text" id="barcode" name="barcode" placeholder="Enter Key Barcode" required>
+
             <label for="user">Search for User:</label>
             <select id="user" name="user" class="form-control">
                 <option></option>
                 {% for user in users %}
-                    <option value="{{ user.id }}">{{ user.username }}</option>
+                    <option value="{{ user.id }}">{{ user.username }} - {{ user.last_name }}</option>
                 {% endfor %}
             </select>
+
             <button type="submit">Issue Key</button>
         </form>
         <a href="{% url 'main_page' %}">Back to Main Page</a>
     </div>
-    <script src="{% static 'keys/js/auto_focus.js' %}"></script>
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <!-- Включване на JS за Select2-->
+=======
+    <!-- Включване на JS за Select2 -->
+>>>>>>> de539f027328be67394bd191aca0cd2ab62e7d94
+=======
+    <!-- Включване на JS за Select2 -->
+>>>>>>> de539f027328be67394bd191aca0cd2ab62e7d94
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#user').select2({
-                placeholder: 'Type to search for a user', // Placeholder за търсене
-                allowClear: true, // Позволява изчистване
-                minimumInputLength: 1, // Започва търсенето след 1 символ
-                width: '100%' // Задава широчина
-         });
-      });
+                placeholder: 'Search by Username or Last Name',
+                allowClear: true,
+                minimumInputLength: 1,
+                width: '100%'
+            });
+        });
     </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
 </body>
 </html>
