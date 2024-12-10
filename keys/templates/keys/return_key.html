@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Return a Key</title>
     <style>
+        /* Основен стил */
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #fff;
+            margin: 0;
         }
 
         .container {
@@ -23,22 +22,19 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease-in-out;
-            width: 100%;
-            max-width: 400px;
+            width: 350px;
         }
 
         h1 {
-            margin-bottom: 20px;
-            color: #444;
             font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
         }
 
         form {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 20px;
         }
 
         input, button {
@@ -50,35 +46,32 @@
             box-sizing: border-box;
         }
 
-        input {
-            background-color: #f9f9f9;
-        }
-
         button {
-            background-color: #6a11cb;
+            background-color: #007BFF;
             color: white;
             border: none;
             cursor: pointer;
-            font-weight: bold;
             transition: all 0.3s ease;
         }
 
         button:hover {
-            background-color: #2575fc;
+            background-color: #0056b3;
             transform: scale(1.05);
         }
 
         a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007BFF;
             text-decoration: none;
-            color: #6a11cb;
             font-weight: bold;
-            transition: color 0.3s ease;
         }
 
         a:hover {
-            color: #2575fc;
+            text-decoration: underline;
         }
 
+        /* Анимация */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -89,6 +82,10 @@
                 transform: translateY(0);
             }
         }
+
+        .container {
+            animation: fadeIn 1s ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -96,7 +93,6 @@
         <h1>Return a Key</h1>
         <form method="POST">
             {% csrf_token %}
-            {% load static %}
             <input type="text" name="barcode" placeholder="Enter Key Barcode" required>
             <button type="submit">Return Key</button>
         </form>
