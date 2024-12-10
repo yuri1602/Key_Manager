@@ -8,7 +8,14 @@ from django.http import HttpResponse
 from .models import Key, KeyHistory
 from django.contrib import messages
 from django.http import JsonResponse
+from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView
 
+
+class CustomLoginView(LoginView):
+    template_name = 'keys/login.html'  # Шаблонът за login страницата
+    redirect_authenticated_user = True  # Пренасочване, ако потребителят вече е логнат
+    success_url = reverse_lazy('main_page')  # Къде да отиде след успешен вход
 
 def view_reports(request):
     # Всички записи за историята
