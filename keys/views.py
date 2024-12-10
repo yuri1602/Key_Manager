@@ -8,25 +8,6 @@ from django.http import HttpResponse
 from .models import Key, KeyHistory
 from django.contrib import messages
 from django.http import JsonResponse
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 55af7d6 (1)
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 55af7d6 (1)
->>>>>>> de539f027328be67394bd191aca0cd2ab62e7d94
-=======
-
-=======
->>>>>>> parent of 55af7d6 (1)
->>>>>>> de539f027328be67394bd191aca0cd2ab62e7d94
->>>>>>> aca7b2ff7cd914ed9bc7bb79c472f94d1fba368c
 
 
 def view_reports(request):
