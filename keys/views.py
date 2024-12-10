@@ -141,10 +141,8 @@ def issue_key(request):
         # Запис в историята
         KeyHistory.objects.create(key=key, user=user, issued_at=key.issued_at)
 
-         # Съобщение за успешно издаване
-        messages.success(request, f"Key '{key.name}' successfully issued to {user.username}.")
-
-         # Редирект към main_page
+         #   # Добавяме успешно съобщение
+        messages.success(request, "Key issued successfully!")
         return redirect('main_page')
 
     # Ако заявката е GET (показване на формуляра)
