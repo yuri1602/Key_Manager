@@ -151,22 +151,22 @@ def issue_key(request):
 
 def return_key(request):
     if request.method == 'POST':
-        barcode = request.POST.get('barcode')  # Извличане на баркода от формуляра
-        try:
-            key = Key.objects.get(barcode=barcode)  # Намиране на ключа по баркод
-            if key.is_issued:  # Проверка дали ключът е издаден
-                key.is_issued = False
-                key.returned_at = timezone.now()
-                key.save()
+        barcode = request.POST.get('barcode')
 
-                # Добавяне на съобщение за успех
-                messages.success(request, f"Key '{key.barcode}' has been successfully returned!")
-            else:
-                messages.warning(request, f"Key '{key.barcode}' was not issued.")
-        except Key.DoesNotExist:
-            messages.error(request, f"No key found with barcode '{barcode}'.")
+        key = get_object_or_404(Key, barcode=barcode)
 
-        # Редирект към главната страница
-        return redirect('main_page')
+        if not key.is_issued:
+            return HttpResponse("Ключа не е издаден.", status=400)
+
+        key_history = KeyHistory.objects.filter(key=key, returned_at__isnull=True).first()
+        key_history.returned_at = timezone.now()
+        key_history.save()
+
+        key.is_issued = False
+        key.issued_to = None
+        key.issued_at = None
+        key.save()
+
+        return HttpResponse("Key returned successfully!")
 
     return render(request, 'keys/return_key.html')
