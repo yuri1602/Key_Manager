@@ -114,23 +114,23 @@ def issue_key(request):
 
         # Проверка за липсващи данни
         if not user_id or not barcode:
-            return HttpResponse("User ID or barcode not provided.", status=400)
+            return HttpResponse("Не е предоставен потребителски идентификатор или номер.", status=400)
 
         # Опитайте да намерите потребителя
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
-            return HttpResponse("User not found.", status=404)
+            return HttpResponse("Потребителия не е намерен.", status=404)
 
         # Опитайте да намерите ключа
         try:
             key = Key.objects.get(barcode=barcode)
         except Key.DoesNotExist:
-            return HttpResponse("Key not found.", status=404)
+            return HttpResponse("Ключа не е намерен.", status=404)
 
         # Проверка дали ключът вече е издаден
         if key.is_issued:
-            return HttpResponse("This key is already issued.", status=400)
+            return HttpResponse("Този ключ вече е издаден.", status=400)
 
         # Издаване на ключа
         key.is_issued = True
@@ -141,7 +141,11 @@ def issue_key(request):
         # Запис в историята
         KeyHistory.objects.create(key=key, user=user, issued_at=key.issued_at)
 
-        return HttpResponse("Key issued successfully!")
+         # Съобщение за успешно издаване
+        messages.success(request, f"Key '{key.name}' successfully issued to {user.username}.")
+
+         # Редирект към main_page
+        return redirect('main_page')
 
     # Ако заявката е GET (показване на формуляра)
     users = User.objects.all()  # Зарежда всички потребители за списъка

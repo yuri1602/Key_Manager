@@ -103,6 +103,13 @@
 <body>
     <div class="container">
         <h1>Issue a Key</h1>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
         <form method="POST">
             {% csrf_token %}
             {% load static %}
