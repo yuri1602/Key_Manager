@@ -109,5 +109,15 @@
             </a>
         </div>
     </div>
+    <!-- Контейнер за съобщения -->
+    <div class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 </body>
 </html>
