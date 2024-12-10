@@ -141,10 +141,12 @@ def issue_key(request):
         # Запис в историята
         KeyHistory.objects.create(key=key, user=user, issued_at=key.issued_at)
 
-       # Добавяме успешно съобщение
-        messages.success(request, "Key issued successfully!")
+         # Съобщение за успешно издаване
+        messages.success(request, f"Key '{key.name}' successfully issued to {user.username}.")
+
+         # Редирект към main_page
         return redirect('main_page')
-    
+
     # Ако заявката е GET (показване на формуляра)
     users = User.objects.all()  # Зарежда всички потребители за списъка
     return render(request, 'keys/issue_key.html', {'users': users})
