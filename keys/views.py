@@ -142,7 +142,7 @@ def issue_key(request):
         KeyHistory.objects.create(key=key, user=user, issued_at=key.issued_at)
 
          #   # Добавяме успешно съобщение
-        messages.success(request, "Key issued successfully!")
+        messages.success(request, "Ключа е даден успешно!")
         return redirect('main_page')
 
     # Ако заявката е GET (показване на формуляра)
