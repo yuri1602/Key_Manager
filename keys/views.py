@@ -165,28 +165,34 @@ def return_key(request):
     if request.method == 'POST':
         barcode = request.POST.get('barcode')
 
+        # Опитайте да намерите ключа
         try:
             key = Key.objects.get(barcode=barcode)
+        except Key.DoesNotExist:
+            messages.error(request, "Key with the provided barcode does not exist.")
+            return redirect('return_key')
 
-            if not key.is_issued:
-                messages.warning(request, "Ключа не е даден.")
-                return redirect('main_page')
+        # Проверете дали ключът не е издаден
+        if not key.is_issued:
+            messages.error(request, "This key has not been issued.")
+            return redirect('return_key')
 
-            key_history = KeyHistory.objects.filter(key=key, returned_at__isnull=True).first()
+        # Намерете историята на ключа
+        key_history = KeyHistory.objects.filter(key=key, returned_at__isnull=True).first()
+        if key_history:
+            key_history.returned_at = timezone.now()
+            key_history.save()
 
-            if key_history:
-                key_history.returned_at = timezone.now()
-                key_history.save()
-
+            # Актуализиране на статуса на ключа
             key.is_issued = False
             key.issued_to = None
             key.issued_at = None
             key.save()
 
-            messages.success(request, "Ключът е върнат успешно!")
-        except Key.DoesNotExist:
-            messages.error(request, f"Не е намерен ключ с този номер! '{barcode}'.")
-
-        return redirect('main_page')
+            messages.success(request, "Key returned successfully!")
+            return redirect('main_page')
+        else:
+            messages.error(request, "No active record found for this key.")
+            return redirect('return_key')
 
     return render(request, 'keys/return_key.html')

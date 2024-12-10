@@ -108,6 +108,38 @@
         .container {
             animation: fadeIn 1s ease-in-out;
         }
+
+        .alert {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    animation: fadeIn 0.5s ease-in-out;
+    z-index: 1000;
+}
+
+    .alert-success {
+         background-color: #28a745;
+    }
+
+    .alert-error {
+        background-color: #dc3545;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+         }
+         to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     </style>
     <!-- Включваме икони от Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -132,12 +164,14 @@
     </div>
      <!-- Уведомление -->
      {% if messages %}
-     <div class="notification" id="notification">
-         {% for message in messages %}
-             {{ message }}
-         {% endfor %}
-     </div>
- {% endif %}
+        <div class="messages">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 
  <script>
      // Показване на съобщението за няколко секунди
