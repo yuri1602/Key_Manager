@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'keys',
-    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -140,22 +139,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Настройки за влизане и излизане
-LOGIN_REDIRECT_URL = "main_page"  # Пренасочване след успешен вход
-LOGOUT_REDIRECT_URL = "login"  # Пренасочване след изход
-
-# Защита срещу CSRF
-CSRF_COOKIE_SECURE = True
-CSRF_USE_SESSIONS = True
-
-# HTTPS
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 3600
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-
-INSTALLED_APPS += ["axes"]
-MIDDLEWARE += ["axes.middleware.AxesMiddleware"]
-
-AXES_FAILURE_LIMIT = 5  # Брой неуспешни опити за вход
-AXES_COOLOFF_TIME = 1  # Часове блокиране след неуспешни опити
