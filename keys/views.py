@@ -84,12 +84,12 @@ def create_user(request):
 
         # Проверка за празни полета
         if not username:
-            messages.error(request, "Username is required.")
+            messages.error(request, "Потребителското име е задължително.")
             return redirect('create_user')
 
         # Проверка за съществуващ потребител
         if User.objects.filter(username=username).exists():
-            messages.error(request, f"User with username '{username}' already exists.")
+            messages.error(request, f"Потребителия '{username}' вече съществува.")
             return redirect('create_user')
 
         # Създаване на потребителя
@@ -105,10 +105,10 @@ def create_user(request):
             user.save()
 
             # Съобщение за успех
-            messages.success(request, f"User '{username}' created successfully!")
+            messages.success(request, f"Потребителия '{username}' е създаден успешно!")
             return redirect('main_page')
         except Exception as e:
-            messages.error(request, f"Error creating user: {e}")
+            messages.error(request, f"Проблем при създаването: {e}")
             return redirect('create_user')
 
     return render(request, 'keys/create_user.html')
