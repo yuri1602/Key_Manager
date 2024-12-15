@@ -169,7 +169,7 @@ def return_key(request):
         try:
             key = Key.objects.get(barcode=barcode)
         except Key.DoesNotExist:
-            messages.error(request, "Key with the provided barcode does not exist.")
+            messages.error(request, "Ключът с предоставения баркод не съществува.")
             return redirect('return_key')
 
         # Проверете дали ключът не е издаден
@@ -189,10 +189,10 @@ def return_key(request):
             key.issued_at = None
             key.save()
 
-            messages.success(request, "Key returned successfully!")
+            messages.success(request, "Ключа е върнат успешно!")
             return redirect('main_page')
         else:
-            messages.error(request, "No active record found for this key.")
+            messages.error(request, "Няма намерен активен запис за този ключ.")
             return redirect('return_key')
 
     return render(request, 'keys/return_key.html')
