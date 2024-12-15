@@ -111,16 +111,16 @@
         <form method="POST" action="{% url 'create_user' %}">
             {% csrf_token %}
             <label for="username">Потребител:</label>
-            <input type="text" id="username" name="username" placeholder="Enter username" required>
+            <input type="text" id="username" name="username" placeholder="Въведете име на потребител" required>
 
             <label for="first_name">Отдел:</label>
-            <input type="text" id="first_name" name="first_name" placeholder="Enter department">
+            <input type="text" id="first_name" name="first_name" placeholder="Въведете отдел">
 
             <label for="last_name">Код:</label>
-            <input type="text" id="last_name" name="last_name" placeholder="Enter code">
+            <input type="text" id="last_name" name="last_name" placeholder="Сканирайте карта">
 
             <label for="is_staff">
-                <input type="checkbox" id="is_staff" name="is_staff"> Staff Status
+                <input type="checkbox" id="is_staff" name="is_staff"> Вътрешен служител
             </label>
 
             <button type="submit">Създай потребител</button>
