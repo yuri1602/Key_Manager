@@ -133,10 +133,10 @@
         <form method="POST">
             {% csrf_token %}
             {% load static %}
-            <input type="text" name="barcode" placeholder="Enter Key Barcode" required>
-            <button type="submit">Върни Ключ</button>
+            <input type="text" name="barcode" placeholder="Сканирайте" required>
+            <button type="submit">Запис</button>
         </form>
-        <a href="{% url 'main_page' %}">Back to Main Page</a>
+        <a href="{% url 'main_page' %}">Назад</a>
     </div>
     {% if messages %}
 <div class="messages">

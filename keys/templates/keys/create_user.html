@@ -110,7 +110,7 @@
         <h1>Create a New User</h1>
         <form method="POST" action="{% url 'create_user' %}">
             {% csrf_token %}
-            <label for="username">Username:</label>
+            <label for="username">Потребител:</label>
             <input type="text" id="username" name="username" placeholder="Enter username" required>
 
             <label for="first_name">Отдел:</label>
@@ -123,9 +123,9 @@
                 <input type="checkbox" id="is_staff" name="is_staff"> Staff Status
             </label>
 
-            <button type="submit">Create User</button>
+            <button type="submit">Създай потребител</button>
         </form>
-        <a href="{% url 'main_page' %}">Back to Main Page</a>
+        <a href="{% url 'main_page' %}">Назад</a>
     </div>
 </body>
 </html>

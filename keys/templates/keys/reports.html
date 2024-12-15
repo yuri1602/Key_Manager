@@ -141,36 +141,36 @@
 <body>
     <div class="wrapper">
         <div class="header">
-            <h1>Key Usage Reports</h1>
-            <a href="{% url 'main_page' %}" class="back-button">Back to Main Page</a>
+            <h1>Справки</h1>
+            <a href="{% url 'main_page' %}" class="back-button">Назад</a>
         </div>
 
         <!-- Filter Form -->
         <form method="get" action="{% url 'view_reports' %}">
             <div style="flex: 1;">
-                <label for="user_id">User:</label>
+                <label for="user_id">Потребител:</label>
                 <select name="user_id" id="user_id">
                     <option value="">-- Search User --</option>
                 </select>
             </div>
 
             <div style="flex: 1;">
-                <label for="key_barcode">Key Barcode:</label>
+                <label for="key_barcode">Номер на ключ:</label>
                 <input type="text" name="key_barcode" id="key_barcode" value="{{ key_barcode }}">
             </div>
 
             <div style="flex: 1;">
-                <label for="start_date">Start Date:</label>
+                <label for="start_date">От Дата:</label>
                 <input type="date" name="start_date" id="start_date" value="{{ start_date }}">
             </div>
 
             <div style="flex: 1;">
-                <label for="end_date">End Date:</label>
+                <label for="end_date">До Дата:</label>
                 <input type="date" name="end_date" id="end_date" value="{{ end_date }}">
             </div>
 
             <div style="flex-basis: 100%; text-align: right;">
-                <button type="submit">Filter</button>
+                <button type="submit">Справка</button>
             </div>
         </form>
 
@@ -178,10 +178,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Key</th>
-                    <th>User</th>
-                    <th>Issued At</th>
-                    <th>Returned At</th>
+                    <th>Ключ</th>
+                    <th>Потребител</th>
+                    <th>Предаден на</th> 
+                    <th>Върнат на</th>
                 </tr>
             </thead>
             <tbody>
@@ -194,7 +194,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="4" class="no-records">No records found.</td>
+                        <td colspan="4" class="no-records">Няма нмерен запис.</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -206,7 +206,7 @@
     <script>
         $(document).ready(function() {
             $('#user_id').select2({
-                placeholder: 'Search by Username or Last Name',
+                placeholder: 'Търсене и потребителско име или карта',
                 allowClear: true,
                 minimumInputLength: 1,
                 ajax: {
