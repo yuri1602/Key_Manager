@@ -174,7 +174,7 @@ def return_key(request):
 
         # Проверете дали ключът не е издаден
         if not key.is_issued:
-            messages.error(request, "This key has not been issued.")
+            messages.error(request, "Този ключ не е издаден.")
             return redirect('return_key')
 
         # Намерете историята на ключа
