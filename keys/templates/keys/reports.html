@@ -188,7 +188,7 @@
                 {% for report in reports %}
                     <tr>
                         <td>{{ report.key.name }}</td>
-                        <td>{% if report.user %}{{ report.user.username }}{% else %}Unknown{% endif %}</td>
+                        <td>{% if report.user %}{{ report.user.username }}{% else %}Неизвестен{% endif %}</td>
                         <td>{{ report.issued_at }}</td>
                         <td>{{ report.returned_at|default:"Not Returned" }}</td>
                     </tr>
