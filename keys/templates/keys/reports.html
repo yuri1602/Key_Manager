@@ -158,8 +158,16 @@
                 <label for="key_id">Ключ:</label>
                 <select name="key_id" id="key_id">
                     <option value="">-- Избери Ключ --</option>
+                    {% if key_id %}
+                        {% for key in Key.objects.all %}
+                            <option value="{{ key.id }}" {% if key.id|stringformat:"s" == key_id %}selected{% endif %}>
+                                {{ key.name }} ({{ key.barcode }})
+                            </option>
+                        {% endfor %}
+                    {% endif %}
                 </select>
             </div>
+            
 
             <div style="flex: 1;">
                 <label for="start_date">От Дата:</label>

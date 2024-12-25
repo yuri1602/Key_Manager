@@ -25,17 +25,15 @@ def view_reports(request):
 
     # Получаване на данни от GET параметрите
     user_id = request.GET.get('user_id', '')
-    key_query = request.GET.get('key_query', '')  # Промяна на параметъра за комбинирано търсене
+    key_id = request.GET.get('key_id', '')  # Добавено: получаване на ID на ключа
     start_date = request.GET.get('start_date', '')
     end_date = request.GET.get('end_date', '')
 
     # Прилагане на филтри
     if user_id:
         reports = reports.filter(user__id=user_id)
-    if key_query:
-        reports = reports.filter(
-            Q(key__barcode__icontains=key_query) | Q(key__name__icontains=key_query)
-        )
+    if key_id:  # Добавено: филтриране по ID на ключа
+        reports = reports.filter(key__id=key_id)
     if start_date:
         reports = reports.filter(issued_at__date__gte=parse_date(start_date))
     if end_date:
@@ -46,10 +44,11 @@ def view_reports(request):
         'reports': reports,
         'users': User.objects.all(),
         'user_id': user_id,
-        'key_query': key_query,
+        'key_id': key_id,  # Подаване на избрания ключ обратно към шаблона
         'start_date': start_date,
         'end_date': end_date,
     })
+
 
 
 def search_keys(request):
