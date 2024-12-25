@@ -52,6 +52,23 @@ def view_reports(request):
     })
 
 
+def search_keys(request):
+    query = request.GET.get('q', '')  # Търсен текст
+    if query:
+        # Търсене по име или баркод на ключа
+        keys = Key.objects.filter(
+            Q(name__icontains=query) | Q(barcode__icontains=query)
+        )
+    else:
+        keys = Key.objects.none()  # Ако няма търсене, връщаме празен списък
+
+    # Форматиране на резултатите за Select2
+    results = [
+        {'id': key.id, 'text': f"{key.name} ({key.barcode})"} for key in keys
+    ]
+    return JsonResponse({'results': results})
+
+
 
 def search_users(request):
     query = request.GET.get('q', '')  # Търсен текст

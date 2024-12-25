@@ -150,15 +150,16 @@
             <div style="flex: 1;">
                 <label for="user_id">Потребител:</label>
                 <select name="user_id" id="user_id">
-                    <option value="">-- Search User --</option>
+                    <option value="">-- Избери потребител --</option>
                 </select>
             </div>
 
             <div style="flex: 1;">
-                <label for="key_query">Търсене на ключ:</label>
-                <input type="text" name="key_query" id="key_query" value="{{ key_query }}" placeholder="Търсене по номер или име">
+                <label for="key_id">Ключ:</label>
+                <select name="key_id" id="key_id">
+                    <option value="">-- Избери Ключ --</option>
+                </select>
             </div>
-            
 
             <div style="flex: 1;">
                 <label for="start_date">От Дата:</label>
@@ -195,7 +196,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="4" class="no-records">Няма нмерен запис.</td>
+                        <td colspan="4" class="no-records">Няма намерен запис.</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -207,11 +208,34 @@
     <script>
         $(document).ready(function() {
             $('#user_id').select2({
-                placeholder: 'Търсене и потребителско име или карта',
+                placeholder: 'Търсене по потребител',
                 allowClear: true,
                 minimumInputLength: 1,
                 ajax: {
                     url: "{% url 'search_users' %}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: data.results
+                        };
+                    },
+                    cache: true
+                },
+                width: '100%'
+            });
+
+            $('#key_id').select2({
+                placeholder: 'Търсене на ключ по име или баркод',
+                allowClear: true,
+                minimumInputLength: 1,
+                ajax: {
+                    url: "{% url 'search_keys' %}",
                     dataType: 'json',
                     delay: 250,
                     data: function(params) {
